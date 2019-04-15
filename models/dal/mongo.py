@@ -30,3 +30,6 @@ class Mongo(BaseDal):
 
 	def remove(self, id):
 		return self.collection.delete_one(({"_id": ObjectId(str(id))})).deleted_count
+
+	def removeAll(self):
+		return self.collection.drop()

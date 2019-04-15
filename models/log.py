@@ -82,4 +82,7 @@ class Log:
 	def getById(self, id):
 		return self.dal.findById(id)
 
+	def removeAll(self):
+		return self.dal.removeAll()
+
 		
