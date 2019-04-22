@@ -1,0 +1,17 @@
+version: '2.1'
+
+services:
+  logger:
+    image: logger
+    build: .
+    depends_on:
+     - mongo
+    volumes:
+      - ../:/app
+    ports:
+      - 8888:5000
+    command: bash -c "python _tests/test_model.py && python logger.py"
+  mongo:
+    image: "mongo"
+    ports:
+      - 27017:27017

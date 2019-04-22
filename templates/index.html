@@ -1,5 +1,131 @@
 <html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </head>
     <body>
-        <h1>Hello World</h1>
+        <div class="alert alert-dark" role="alert">
+                <h1>Listagem de serviços</h1>
+        </div>
+
+        <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Endpoint</th>
+                    <th scope="col">Method</th>
+                    <th scope="col">Parâmetros</th>
+                    <th scope="col">Finalidade</th>
+                    <th scope="col">Exemplo de request</th>
+                    <th scope="col">Exemplo de resposta válida</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>/log/parse</td>
+                    <td>POST</td>
+                    <td>file</td>
+                    <td>Processar um arquivo de log</td>
+                    <td>curl -X POST http://127.0.0.1:5000/log/parse -F "file=@/caminho/do/arquivo.txt"</td>
+                    <td>
+                      <pre>
+                        <code>
+                        {
+                          "response": "5cbd1c4fddc441000192e8ce",
+                          "success": true
+                        }
+                        </code>
+                      </pre>
+                  </td>
+                  </tr>
+                  <tr>
+                    <td>/log/list</td>
+                    <td>GET</td>
+                    <td>skip & limit</td>
+                    <td>Listar os logs processados em um determinado range</td>
+                    <td>curl -X GET http://127.0.0.1:5000/log/list/0/5 </td>
+                    <td>
+                        <pre>
+                            <code>
+                        [
+                        {
+                            "ip": [
+                                {
+                                    "count": 20,
+                                    "ip": "-"
+                                },
+                                {
+                                    "count": 18,
+                                    "ip": "177.79.86.25"
+                                },
+                                {
+                                    "count": 16,
+                                    "ip": "177.182.5.195"
+                                },
+                                {
+                                    "count": 16,
+                                    "ip": "177.142.103.239"
+                                },
+                                {
+                                    "count": 12,
+                                    "ip": "152.92.242.53"
+                                }
+                            ],
+                            "url": [
+                                {
+                                    "count": 213,
+                                    "url": "https://www.globo.com/"
+                                },
+                                {
+                                    "count": 98,
+                                    "url": "https://g1.globo.com/"
+                                },
+                                {
+                                    "count": 53,
+                                    "url": "https://globoesporte.globo.com/"
+                                },
+                                {
+                                    "count": 33,
+                                    "url": "https://s.glbimg.com/en/ho/static/CACHE/css/6028d0061ffa.css"
+                                },
+                                {
+                                    "count": 23,
+                                    "url": "https://g1.globo.com/mg/minas-gerais/noticia/2019/02/07/tragedia-em-brumadinho-mulher-se-demitiu-de-cozinha-da-vale-dias-antes-de-barragem-se-romper.ghtml"
+                                }
+                            ],
+                            "userAgent": [
+                                {
+                                    "count": 120,
+                                    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
+                                },
+                                {
+                                    "count": 105,
+                                    "userAgent": "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+                                },
+                                {
+                                    "count": 90,
+                                    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+                                },
+                                {
+                                    "count": 40,
+                                    "userAgent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+                                },
+                                {
+                                    "count": 37,
+                                    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1"
+                                }
+                            ]
+                        },
+                        {
+                            "success": true
+                        }
+                    ]
+                    </code>
+                    </pre>
+                  </td>
+                  </tr>
+                </tbody>
+              </table>
+
+
     </body>
 </html>

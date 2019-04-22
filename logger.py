@@ -28,7 +28,7 @@ def parse():
 	if allowed_extensions(f.filename):
 		filename = secure_filename(f.filename)
 		f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		response = Log.process(f.filename)
+		response = Log.process(app.config['UPLOAD_FOLDER']+"/"+f.filename)
 		success = True
 	else:
 		response = 'Invalid extension'

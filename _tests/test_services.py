@@ -22,7 +22,8 @@ class testLogger(unittest.TestCase):
 			f = open('/app/fileToSend/log.txt', 'rb')
 			fileToSend = {'file': f}
 			result = requests.post(endpoint, files=fileToSend)
-			self.assertEqual(result.json()['success'], True)
+			self.assertEqual(len(result.json()['response']), 24)
+			self.assertTrue(result.json()['success'])
 			f.close()
 
 		endpoint = self.url+self.listLogs
@@ -36,13 +37,18 @@ class testLogger(unittest.TestCase):
 		f = open('/app/fileToSend/python.png', 'rb')
 		fileToSend = {'file': f}
 		result = requests.post(endpoint, files=fileToSend)
-		self.assertEqual(result.json()['success'], False)
+		self.assertFalse(result.json()['success'])
 		f.close()
 
 		endpoint = self.url+self.listLogs
 		result = requests.get(endpoint)
 		# 0 elementos mais a mensagem de sucesso
 		self.assertEqual(len(result.json()), 1)
+
+	def setUp(self):
+		Dal = Mongo(self.log.collectionName)
+		Log = self.log(Dal)
+		Log.removeAll()
 
 	def tearDown(self):
 		Dal = Mongo(self.log.collectionName)

@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 import requests
-from libraries.swapi import Swapi
+#from libraries.swapi import Swapi
 from models.dal.basedal import BaseDal
 from models.exceptions.planet import PlanetException
 import re
@@ -18,15 +18,20 @@ class Log:
 		self.id = str(id)
 
 	def process(self, filename):
-		f= open(filename,"r")
-		text = f.read()
-		f.close()
+		try:
+			f= open(filename,"r")
+			text = f.read()
+			f.close()
+		except:
+			raise OSError()
+			
 		
 		urls = []
 		userAgent = []
 		ip = []
 		date = []
 		
+		#Sem quebras de linha
 		for logLine in text.split('- - - - -'):
 			if logLine.strip():
 				#Buscando o que está entre aspas e entre colchetes
@@ -46,29 +51,17 @@ class Log:
 
 	def __parseToDatabase(self, df):
 		data = {'url' : [], 'userAgent' : [], 'ip' : []}
-
-		#x = 0
-		#while x < len(df['url'].value_counts().index.tolist()):
-		entity = {}
-		for x in range(0, 5):
-			entity['url'] = df['url'].value_counts().index[x]
-			entity['count'] = df['url'].value_counts().tolist()[x]
-			data['url'].append(entity.copy())
-			x += 1
-
-		entity = {}
-		for x in range(0, 5):
-			entity['userAgent'] = df['userAgent'].value_counts().index[x]
-			entity['count'] = df['userAgent'].value_counts().tolist()[x]
-			data['userAgent'].append(entity.copy())
-			x += 1
-
-		entity = {}
-		for x in range(0, 5):
-			entity['ip'] = df['ip'].value_counts().index[x]
-			entity['count'] = df['ip'].value_counts().tolist()[x]
-			data['ip'].append(entity.copy())
-			x += 1
+		
+		columns = df.columns.tolist()
+		for column in columns:
+			entity = {}
+			x = 0
+			if data.get(column) != None:
+				for x in range(0, 5):
+					entity['count'] = df[column].value_counts().tolist()[x]
+					entity[column] = df[column].value_counts().index[x]
+					data[column].append(entity.copy())
+					x += 1
 
 		return data
 
